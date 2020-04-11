@@ -3,7 +3,7 @@
     <head>
         <title>ALTA DE EMPLEADOS</title>
     </head>
-    <!--Formulario de entrada de datos e Inserción en el JavaBean- clase beans.Empleado-->
+    <!--Formulario de entrada de datos e Inserción en el JavaBean- clase beans.EmpleadoPantalla-->
     <jsp:useBean id="emple" scope="request" 
                  class="beans.EmpleadoPantalla" />
     <jsp:setProperty name="emple" property="*"/>

@@ -67,6 +67,30 @@ public class Controlador extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/listado.jsp");
             rd.forward(request, response);
         }
+        
+         if (op.equals("baja")) {
+
+            response.sendRedirect("baja.jsp");
+        }
+         
+         
+          if (op.equals("eliminar")) {
+              
+              EmpleadoPantalla empleado =   (EmpleadoPantalla) request.getAttribute("emple");// obtenerlos
+               boolean eliminar = empDAO.eliminarEmp(empleado.getNumemp());
+                 String mensaje = "";
+            if (eliminar) {
+                mensaje = "Empleado " +empleado.getNumemp() + " eliminado";
+            } else {
+                mensaje = "Error al eliminar empleado " +empleado.getNumemp();
+            }
+
+            request.setAttribute("mensaje", mensaje); //se envía mensaje al jsp
+            RequestDispatcher rd
+                    = request.getRequestDispatcher("/EmpleadoEliminado.jsp");
+            rd.forward(request, response);
+              
+          }
     }
 
     public void destroy() {

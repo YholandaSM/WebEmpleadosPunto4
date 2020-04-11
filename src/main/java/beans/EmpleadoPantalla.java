@@ -6,7 +6,7 @@ package beans;
  */
 public class EmpleadoPantalla {
     
-    
+    private Integer numemp;
     private String nombre;
     private String cargo;
     private String telefono;
@@ -57,6 +57,16 @@ public class EmpleadoPantalla {
         this.direccion = direccion;
     }
 
+    public Integer getNumemp() {
+        return numemp;
+    }
+
+    public void setNumemp(Integer numemp) {
+        this.numemp = numemp;
+    }
+    
+    
+    
     @Override
     public String toString() {
         return "Empleados{" +   ", nombre=" + nombre + ", cargo=" + cargo + ", telefono=" + telefono + ", direccion=" + direccion + '}';
