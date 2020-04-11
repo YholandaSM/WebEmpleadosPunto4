@@ -5,7 +5,6 @@
  */
 package controlador;
 
-
 import beans.EmpleadoPantalla;
 import daos.EmpleadoDAO;
 import factory.DAOFactory;
@@ -24,15 +23,27 @@ import pojos.Empleado;
  */
 public class Controlador extends HttpServlet {
 
-    DAOFactory bd = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+    DAOFactory bdMysql = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+    DAOFactory bdNeodatis = DAOFactory.getDAOFactory(DAOFactory.NEODATIS);
+
+    EmpleadoDAO empDAO;
 
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EmpleadoDAO empDAO = bd.getEmpleadoDAO();
+        // EmpleadoDAO empDAO = bdMysql.getEmpleadoDAO();
+        //Vamos a comprobar qué bbdd ha elegido el usuario
+        String op = request.getParameter("bbdd");
+        if (op != null) {
+            if (op.equals("mysql")) {
+                empDAO = bdMysql.getEmpleadoDAO();
+            } else {
+                empDAO = bdNeodatis.getEmpleadoDAO();
+            }
+        }
 
         // se obtiene la acción a realizar
-        String op = request.getParameter("accion");
+        op = request.getParameter("accion");
 
         // pantalla de alta de departamento
         if (op.equals("alta")) {
@@ -44,14 +55,14 @@ public class Controlador extends HttpServlet {
         if (op.equals("insertar")) {
             EmpleadoPantalla empPantalla = (EmpleadoPantalla) request.getAttribute("emple");// obtenerlos
 
-            Empleado empleado = new Empleado(empPantalla.getNombre(),empPantalla.getCargo(),empPantalla.getTelefono(),
+            Empleado empleado = new Empleado(empPantalla.getNombre(), empPantalla.getCargo(), empPantalla.getTelefono(),
                     empPantalla.getDireccion());
             boolean insertar = empDAO.insertarEmp(empleado);
             String mensaje = "";
             if (insertar) {
                 mensaje = "Empleado " + empPantalla.getNombre() + " insertado";
             } else {
-                mensaje = "Error al insertar empleado " +empPantalla.getNombre();
+                mensaje = "Error al insertar empleado " + empPantalla.getNombre();
             }
 
             request.setAttribute("mensaje", mensaje); //se envía mensaje al jsp
@@ -67,34 +78,41 @@ public class Controlador extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/listado.jsp");
             rd.forward(request, response);
         }
-        
-         if (op.equals("baja")) {
+
+        if (op.equals("baja")) {
 
             response.sendRedirect("baja.jsp");
         }
-         
-         
-          if (op.equals("eliminar")) {
-              
-              EmpleadoPantalla empleado =   (EmpleadoPantalla) request.getAttribute("emple");// obtenerlos
-               boolean eliminar = empDAO.eliminarEmp(empleado.getNumemp());
-                 String mensaje = "";
+
+        if (op.equals("eliminar")) {
+
+            EmpleadoPantalla empleado = (EmpleadoPantalla) request.getAttribute("emple");// obtenerlos
+            boolean eliminar = empDAO.eliminarEmp(empleado.getNumemp());
+            String mensaje = "";
             if (eliminar) {
-                mensaje = "Empleado " +empleado.getNumemp() + " eliminado";
+                mensaje = "Empleado " + empleado.getNumemp() + " eliminado";
             } else {
-                mensaje = "Error al eliminar empleado " +empleado.getNumemp();
+                mensaje = "Error al eliminar empleado " + empleado.getNumemp();
             }
 
             request.setAttribute("mensaje", mensaje); //se envía mensaje al jsp
             RequestDispatcher rd
                     = request.getRequestDispatcher("/EmpleadoEliminado.jsp");
             rd.forward(request, response);
-              
-          }
+
+        }
+        if (op.equals("listado")) {
+            ArrayList lista = empDAO.listarEmp();
+            request.setAttribute("empleados", lista);
+            RequestDispatcher rd = request.getRequestDispatcher("/listado.jsp");
+            rd.forward(request, response);
+            response.sendRedirect("listado.jsp");
+        }
+
     }
 
     public void destroy() {
-        bd = null;
+        bdMysql = null;
     }
 
 }
