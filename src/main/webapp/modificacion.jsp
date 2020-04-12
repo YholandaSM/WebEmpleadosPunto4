@@ -26,21 +26,18 @@
                     
                     <BR><BR>
                       <center><h5>CAMPOS A MODIFICAR</h5>    
-                    <div class="form-group row">
-                        <label for="formGroupExampleInput">Nombre</label>
-                        <input type="text" name="nombre" class="form-control" id="formGroupExampleInput" placeholder="Nombret">
-                    </div>
+                  
                     <div class="form-group row">
                         <label for="formGroupExampleInput2">Cargo</label>
-                        <input type="text" name="cargo" class="form-control" id="formGroupExampleInput2" placeholder="Cargo">
+                        <input type="text" name="cargo" class="form-control" id="formGroupExampleInput2" placeholder="Cargo" required="true">
                     </div>
                     <div class="form-group row">
                         <label for="formGroupExampleInput2">Teléfono</label>
-                        <input type="text" name="telefono" class="form-control" id="formGroupExampleInput2" placeholder="Teléfono">
+                        <input type="text" name="telefono" class="form-control" id="formGroupExampleInput2" placeholder="Teléfono" required="true">
                     </div>
                     <div class="form-group row">
                         <label for="formGroupExampleInput2">Dirección</label>
-                        <input type="text" name="direccion" class="form-control" id="formGroupExampleInput2" placeholder="Dirección">
+                        <input type="text" name="direccion" class="form-control" id="formGroupExampleInput2" placeholder="Dirección" required="true">
                     </div>
 
                     <button  type="submit" name="modificar"  class="btn btn-primary"

@@ -108,7 +108,8 @@ public class Controlador extends HttpServlet {
         if (op.equals("modificar")) {
 
             EmpleadoPantalla empleado = (EmpleadoPantalla) request.getAttribute("emple");
-            Empleado emp = new Empleado(empleado.getNombre(), empleado.getCargo(), empleado.getDireccion(),
+       
+            Empleado emp = new Empleado( empleado.getCargo(), empleado.getDireccion(),
                     empleado.getTelefono());
             boolean modificar = empDAO.modificarEmp(empleado.getNumemp(), emp);
             String mensaje = "";
@@ -130,7 +131,7 @@ public class Controlador extends HttpServlet {
     @Override
     public void destroy() {
 
-      
+      empDAO.cerrarConexion();
         bdMysql = null;
         bdNeodatis = null;
 

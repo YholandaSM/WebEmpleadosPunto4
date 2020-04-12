@@ -23,6 +23,12 @@ public class EmpleadoPantalla {
         this.direccion = direccion;
     }
 
+    public EmpleadoPantalla(String cargo, String telefono, String direccion) {
+        this.cargo = cargo;
+        this.telefono = telefono;
+        this.direccion = direccion;
+    }
+
    
 
     public String getNombre() {
