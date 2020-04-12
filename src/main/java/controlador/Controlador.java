@@ -23,16 +23,15 @@ import pojos.Empleado;
  */
 public class Controlador extends HttpServlet {
 
-    DAOFactory bdMysql = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-    DAOFactory bdNeodatis = DAOFactory.getDAOFactory(DAOFactory.NEODATIS);
+    DAOFactory  bdMysql = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+    DAOFactory  bdNeodatis = DAOFactory.getDAOFactory(DAOFactory.NEODATIS);
 
     EmpleadoDAO empDAO;
 
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // EmpleadoDAO empDAO = bdMysql.getEmpleadoDAO();
-        //Vamos a comprobar qué bbdd ha elegido el usuario
+ 
         String op = request.getParameter("bbdd");
         if (op != null) {
             if (op.equals("mysql")) {
@@ -79,6 +78,10 @@ public class Controlador extends HttpServlet {
             rd.forward(request, response);
         }
 
+        if (op.equals("modif")) {
+            response.sendRedirect("modificacion.jsp");
+        }
+
         if (op.equals("baja")) {
 
             response.sendRedirect("baja.jsp");
@@ -101,18 +104,36 @@ public class Controlador extends HttpServlet {
             rd.forward(request, response);
 
         }
-        if (op.equals("listado")) {
-            ArrayList lista = empDAO.listarEmp();
-            request.setAttribute("empleados", lista);
-            RequestDispatcher rd = request.getRequestDispatcher("/listado.jsp");
+
+        if (op.equals("modificar")) {
+
+            EmpleadoPantalla empleado = (EmpleadoPantalla) request.getAttribute("emple");
+            Empleado emp = new Empleado(empleado.getNombre(), empleado.getCargo(), empleado.getDireccion(),
+                    empleado.getTelefono());
+            boolean modificar = empDAO.modificarEmp(empleado.getNumemp(), emp);
+            String mensaje = "";
+            if (modificar) {
+                mensaje = "Empleado " + empleado.getNumemp() + " modificado";
+            } else {
+                mensaje = "Error al modificar empleado " + empleado.getNumemp();
+            }
+
+            request.setAttribute("mensaje", mensaje); //se envía mensaje al jsp
+            RequestDispatcher rd
+                    = request.getRequestDispatcher("/EmpleadoModificado.jsp");
             rd.forward(request, response);
-            response.sendRedirect("listado.jsp");
         }
+        
 
     }
 
+    @Override
     public void destroy() {
+
+      
         bdMysql = null;
+        bdNeodatis = null;
+
     }
 
 }

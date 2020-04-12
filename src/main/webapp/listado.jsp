@@ -13,6 +13,7 @@
                 <table class="table">
                     <thead class="thead-light">
                         <tr>
+                            <th scope="col">Nº empleado</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Cargo</th>
                             <th scope="col">Teléfono</th>
@@ -28,7 +29,8 @@
                                 for (int i = 0; i < listaemp.size(); i++) {
                                     Empleado e = (Empleado) listaemp.get(i);%>  
                         <tr>
-                            <th scope="row"><%=e.getNombre()%></th>
+                            <th scope="row"><%=e.getNumemp()%></th>
+                            <td><%=e.getNombre()%></td>
                             <td><%=e.getCargo()%></td>
                             <td><%=e.getTelefono()%></td>
                             <td><%=e.getDireccion()%></td>

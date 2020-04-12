@@ -18,8 +18,8 @@
     
     <dependencies>
         <dependency>
-            <groupId>LibreriaPunto3</groupId>
-            <artifactId>Libreria3</artifactId>
+            <groupId>ComponentePunto3</groupId>
+            <artifactId>Componente3</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
