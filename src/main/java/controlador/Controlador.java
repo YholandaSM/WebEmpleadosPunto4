@@ -131,7 +131,7 @@ public class Controlador extends HttpServlet {
     @Override
     public void destroy() {
 
-      empDAO.cerrarConexion();
+        empDAO.cerrarConexion();
         bdMysql = null;
         bdNeodatis = null;
 
